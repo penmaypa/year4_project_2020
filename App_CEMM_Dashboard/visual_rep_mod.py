@@ -6,19 +6,33 @@ import pandas as pd
 import plotly.graph_objects as go
 
 
-def generate_table(dataframe, max_rows=100):
+def generate_table(h_name, dataframe, max_rows=100):
     if is_data_valid == True:
-        return html.Table(
-            # Header
-            [html.Tr([html.Th(col) for col in dataframe.columns])] +
+        return html.Div(
+            [
+                html.H4(
+                    children= h_name,
+                    style={
+                        'textAlign':'center',
+                        'font-weight':'bold'
+                    },
+                ),
+                html.Table(
+                    # Header
+                    [html.Tr([html.Th(col) for col in dataframe.columns])] +
 
-            # Body
-            [html.Tr([
-                html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
-            ]) for i in range(min(len(dataframe), max_rows))],
+                    # Body
+                    [html.Tr([
+                        html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
+                    ]) for i in range(min(len(dataframe), max_rows))],
+                )
+            ],
             style={
-                
-
+                'height':'500px',
+                'width':'48%',
+                'float':'left',
+                #'backgroundColor': 'blue',
+                'overflow' :'scroll'
             }
         )
     else:

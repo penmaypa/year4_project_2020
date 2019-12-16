@@ -52,9 +52,7 @@ app.layout = html.Div(children=[
         }
     ),
 
-    html.H4(children='Employment by Sector (2017)'),
-
-    visual.generate_table(df)
+    visual.generate_table("Employment 2017",df)
 ])
 
 if __name__ == '__main__':
