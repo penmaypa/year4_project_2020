@@ -6,28 +6,17 @@ import pandas as pd
 import plotly.graph_objects as go
 import visual_rep_mod as visual
 
-data_directory_file = "Data/emp2017.csv"
-visual.is_data_valid = True
+df = visual.read_this_csv("Data/emp2017.csv")
 
-try:
-    df = pd.read_csv(data_directory_file)
-except:
-    visual.data_is_data_valid = False
-    print("\n EXCEPTION:  Data file not found \n")
-    df = pd.read_csv("DataException/exc.csv")
+labels = ['Oxygen','Hydrogen','Carbon_Dioxide','Nitrogen']
+values = [4500, 2500, 1053, 500]
 
-def generate_visuals():
-    table_1 = visual.generate_table(df)
-    table_2 = visual.generate_table(df)
+fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
+#fig.show()
 
 
-
-def generate_pieChart(labels, values):
-    fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
-    return fig.show()
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 app.layout = html.Div(children=[
@@ -52,8 +41,10 @@ app.layout = html.Div(children=[
         }
     ),
 
-    visual.generate_table("Employment 2017",df)
+    visual.generate_table("Employment 2017",df),
 ])
+
+fig
 
 if __name__ == '__main__':
     app.run_server(debug=True)

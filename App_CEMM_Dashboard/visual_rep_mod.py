@@ -6,8 +6,22 @@ import pandas as pd
 import plotly.graph_objects as go
 
 
-def generate_table(h_name, dataframe, max_rows=100):
-    if is_data_valid == True:
+def read_this_csv(csv_file):
+    try:
+        data_file = pd.read_csv(csv_file)
+        data_valid = "valid"
+        data_pack = (data_file, data_valid)
+        return  data_pack
+    except:
+        data_file = pd.read_csv("DataException/exc.csv")
+        data_valid = "invalid"
+        data_pack = (data_file, data_valid)
+        return  data_pack
+
+def generate_table(h_name, data_pack, max_rows=100):
+    dataframe = data_pack[0]
+    is_data_valid = data_pack[1]
+    if is_data_valid == "valid":
         return html.Div(
             [
                 html.H4(
