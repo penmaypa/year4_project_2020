@@ -51,8 +51,7 @@ app.layout = html.Div(children=[
         id='Graph1',
         figure={
             'data': [
-                {'x': [1, 2, 3], 'y': [4, 1, 2], 'type': 'bar', 'name': 'SF'},
-                {'x': [1, 2, 3], 'y': [2, 4, 5], 'type': 'bar', 'name': u'Montréal'},
+                {'x': ['SF', 'TX'], 'y': [4, 7], 'type': 'bar', 'name': 'SF'},
             ],
             'layout': {
                 'plot_bgcolor': 'blue',
