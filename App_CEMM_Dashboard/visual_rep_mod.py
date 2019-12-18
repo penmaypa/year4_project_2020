@@ -21,6 +21,7 @@ def read_this_csv(csv_file):
 def generate_table(h_name, data_pack, max_rows=100):
     dataframe = data_pack[0]
     is_data_valid = data_pack[1]
+
     if is_data_valid == "valid":
         return html.Div(
             [
@@ -56,55 +57,84 @@ def generate_table(h_name, data_pack, max_rows=100):
                     style={
                         'textAlign':'center',
                         'font-weight':'bold',
-                        'font-size':'20px'
+                        'font-size':'20px',
+                        'margin-top':'100px'
+                    }
+                )
+            ],
+            style={
+                'height':'500px',
+                'width':'48%',
+                'float':'left',
+                'overflow' :'scroll',
+                'backgroundColor':'rgba(216, 222, 109, 0.3)',
+            }
+        )
+
+def generate_barChart(h_name, data_pack):
+    try:
+        datafile = data_pack[0]
+        is_data_valid = data_pack[1]
+
+        col_0 = datafile.iloc[0:-1,0]
+        col_1 = datafile.iloc[0:-1,1]
+
+        col_0_list = []
+        col_1_list = []
+
+        for item in col_0:
+            col_0_list.append(item)
+
+        for item in col_1:
+            col_1_list.append(item)
+
+        return html.Div(
+            [
+                html.H1(
+                    [
+                        dcc.Graph(
+                            id='Graph1',
+                            #
+                            figure={
+                                'data': [
+                                    {'x': col_0_list, 'y': col_1_list, 'type': 'bar', 'name': h_name},
+                                ],
+                                'layout': {
+                                    'plot_bgcolor': 'white',
+                                    'paper_bgcolor': 'F0F7BE',
+                                    'font': {
+                                        'color': 'black'
+                                    }
+                                }
+                            }
+                        )
+                    ],
+                    style={
+                        'height':'500px',
+                        'width':'48%',
+                        'float':'right',
+                        'overflow' :'scroll'
                     }
                 )
             ]
         )
-
-def generate_barChart(h_name, data_pack):
-    datafile = data_pack[0]
-    is_data_valid = data_pack[1]
-
-    col_0 = datafile.iloc[0:-1,0]
-    col_1 = datafile.iloc[0:-1,1]
-
-    col_0_list = []
-    col_1_list = []
-
-    for item in col_0:
-        col_0_list.append(item)
-
-    for item in col_1:
-        col_1_list.append(item)
-
-    return html.Div(
-        [
-            html.H1(
-                [
-                    dcc.Graph(
-                        id='Graph1',
-                        #
-                        figure={
-                            'data': [
-                                {'x': col_0_list, 'y': col_1_list, 'type': 'bar', 'name': h_name},
-                            ],
-                            'layout': {
-                                'plot_bgcolor': 'white',
-                                'paper_bgcolor': 'F0F7BE',
-                                'font': {
-                                    'color': 'black'
-                                }
-                            }
-                        }
-                    )
-                ],
-                style={
-                    'height':'500px',
-                    'width':'48%',
-                    'float':'right',
-                    'overflow' :'scroll'
-                }
-            )
-        ]
-    )
+    except:
+        return html.Div(
+            [
+                html.H1(children='Error: No Valid Data',
+                    style={
+                        'textAlign':'center',
+                        'font-weight':'bold',
+                        'font-size':'20px',
+                        'margin-top':'100px',
+                    }
+                )
+            ],
+            style={
+                'height':'500px',
+                'width':'48%',
+                'float':'right',
+                'overflow' :'scroll',
+                'backgroundColor':'rgba(216, 222, 109, 0.3)',
+            }
+        )
