@@ -104,7 +104,7 @@ def generate_barChart(h_name, data_pack):
                                     'paper_bgcolor': 'F0F7BE',
                                     'font': {
                                         'color': 'black'
-                                    }
+                                    },
                                 }
                             }
                         )
