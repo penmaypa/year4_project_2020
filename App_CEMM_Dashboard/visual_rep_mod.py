@@ -78,20 +78,33 @@ def generate_barChart(h_name, data_pack):
     for item in col_1:
         col_1_list.append(item)
 
-    return dcc.Graph(
-        id='Graph1',
-
-        #
-        figure={
-            'data': [
-                {'x': col_0_list, 'y': col_1_list, 'type': 'bar', 'name': h_name},
-            ],
-            'layout': {
-                'plot_bgcolor': 'white',
-                'paper_bgcolor': 'F0F7BE',
-                'font': {
-                    'color': 'black'
+    return html.Div(
+        [
+            html.H1(
+                [
+                    dcc.Graph(
+                        id='Graph1',
+                        #
+                        figure={
+                            'data': [
+                                {'x': col_0_list, 'y': col_1_list, 'type': 'bar', 'name': h_name},
+                            ],
+                            'layout': {
+                                'plot_bgcolor': 'white',
+                                'paper_bgcolor': 'F0F7BE',
+                                'font': {
+                                    'color': 'black'
+                                }
+                            }
+                        }
+                    )
+                ],
+                style={
+                    'height':'500px',
+                    'width':'48%',
+                    'float':'right',
+                    'overflow' :'scroll'
                 }
-            }
-        }
+            )
+        ]
     )
