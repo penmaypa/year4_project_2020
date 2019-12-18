@@ -46,22 +46,7 @@ app.layout = html.Div(children=[
     ),
 
     visual.generate_table("Employment 2017",df),
-
-    dcc.Graph(
-        id='Graph1',
-        figure={
-            'data': [
-                {'x': ['SF', 'TX'], 'y': [4, 7], 'type': 'bar', 'name': 'SF'},
-            ],
-            'layout': {
-                'plot_bgcolor': 'blue',
-                'paper_bgcolor': 'red',
-                'font': {
-                    'color': 'black'
-                }
-            }
-        }
-    )
+    visual.generate_barChart("Employment 2017",df)
 ])
 
 
