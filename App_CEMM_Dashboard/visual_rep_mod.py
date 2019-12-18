@@ -61,3 +61,37 @@ def generate_table(h_name, data_pack, max_rows=100):
                 )
             ]
         )
+
+def generate_barChart(h_name, data_pack):
+    datafile = data_pack[0]
+    is_data_valid = data_pack[1]
+
+    col_0 = datafile.iloc[0:-1,0]
+    col_1 = datafile.iloc[[0:-1,1]]
+
+    col_0_list = []
+    col_1_list = []
+
+    for item in col_0
+        col_0_list.append(item)
+
+    for item in col_1
+        col_1_list.append(item)
+
+    return dcc.Graph(
+        id='Graph1',
+
+        #
+        figure={
+            'data': [
+                {'x': col_0_list, 'y': col_1_list, 'type': 'bar', 'name': 'Employment'},
+            ],
+            'layout': {
+                'plot_bgcolor': 'blue',
+                'paper_bgcolor': 'red',
+                'font': {
+                    'color': 'black'
+                }
+            }
+        }
+    )
