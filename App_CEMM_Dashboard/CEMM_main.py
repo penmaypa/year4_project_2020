@@ -6,6 +6,10 @@ import pandas as pd
 import plotly.graph_objects as go
 import visual_rep_mod as visual
 
+import os
+#from app import app
+
+
 df = visual.read_this_csv("Data/emp2017.csv")
 
 labels = ['Oxygen','Hydrogen','Carbon_Dioxide','Nitrogen']
@@ -42,9 +46,27 @@ app.layout = html.Div(children=[
     ),
 
     visual.generate_table("Employment 2017",df),
+
+    dcc.Graph(
+        id='Graph1',
+        figure={
+            'data': [
+                {'x': [1, 2, 3], 'y': [4, 1, 2], 'type': 'bar', 'name': 'SF'},
+                {'x': [1, 2, 3], 'y': [2, 4, 5], 'type': 'bar', 'name': u'Montréal'},
+            ],
+            'layout': {
+                'plot_bgcolor': 'blue',
+                'paper_bgcolor': 'red',
+                'font': {
+                    'color': 'black'
+                }
+            }
+        }
+    )
 ])
 
-fig
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+    app.config.suppress_callback_exceptions = True
