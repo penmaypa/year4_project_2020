@@ -4,7 +4,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
 import plotly.graph_objects as go
-import visual_rep_mod as visual
+from cemm_lib import visual_rep_mod as visual
 
 import os
 #from app import app
