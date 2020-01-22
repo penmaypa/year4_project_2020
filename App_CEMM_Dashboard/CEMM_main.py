@@ -18,7 +18,7 @@ labels = ['Oxygen','Hydrogen','Carbon_Dioxide','Nitrogen']
 values = [4500, 2500, 1053, 500]
 
 fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
-#fig.show()
+
 
 
 
@@ -48,7 +48,8 @@ app.layout = html.Div(children=[
     ),
     # === Visual Representation here ===
     visual.generate_table("Employment 2017",df),
-    visual.generate_barChart("Employment 2017",df)
+    visual.generate_barChart("Employment 2017",df),
+    fig.show()
 ])
 
 
