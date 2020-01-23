@@ -17,9 +17,6 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 #df = "empty"
 df = visual.read_this_csv("Data/dub_rent.csv")
 
-labels = ['Oxygen','Hydrogen','Carbon_Dioxide','Nitrogen']
-values = [4500, 2500, 1053, 500]
-
 # fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
 
 
@@ -43,6 +40,11 @@ app.layout = html.Div(children=[
                     'textAlign':'center',
                     'font-weight':'bold'
                 },
+            ),
+            html.Div(
+                style={
+                    'height':'5px'
+                }
             )
         ],
         style={
@@ -52,23 +54,12 @@ app.layout = html.Div(children=[
 
     # === Callback test ====
 
-    dcc.Input(id='my-id', value='initial value', type='text'),
-    html.Div(id='my-div'),
 
     # === Visual Representation here ===
     visual.generate_table("Employment 2017",df),
     visual.generate_barChart("Employment 2017",df),
     # fig.show()
 ])
-
-@app.callback(
-    Output(component_id='my-div', component_property='children'),
-    [Input(component_id='my-id', component_property='value')]
-)
-
-def update_output_div(input_value):
-    return 'You\'ve entered "{}"'.format(input_value)
-
 
 
 if __name__ == '__main__':
