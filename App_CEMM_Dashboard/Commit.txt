@@ -1,4 +1,7 @@
 
+> Current State:
+  ^ I just added the upload-function to the html
+
 2020-01-23 05:35
 - Initial:  Modifying the design
 
