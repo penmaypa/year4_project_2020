@@ -26,6 +26,8 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 app.layout = html.Div(children=[
+
+    # Headings
     html.Div(
         [
             html.H1(children='CEMM Dashboard',
@@ -52,8 +54,31 @@ app.layout = html.Div(children=[
         }
     ),
 
-    # === Callback test ====
-
+    # === Upload ====
+    html.Div(
+        [
+            dcc.Upload(
+                id='upload-data',
+                children=html.Div([
+                    'Drag and Drop or ',
+                    html.A('Select Files')
+                ]),
+                style={
+                    'width': '100%',
+                    'height': '60px',
+                    'lineHeight': '60px',
+                    'borderWidth': '1px',
+                    'borderStyle': 'dashed',
+                    'borderRadius': '5px',
+                    'textAlign': 'center',
+                    'margin': '10px'
+                },
+                # Allow multiple files to be uploaded
+                multiple=True
+            ),
+            html.Div(id='output-data-upload'),
+        ]
+    ),
 
     # === Visual Representation here ===
     visual.generate_table("Employment 2017",df),
