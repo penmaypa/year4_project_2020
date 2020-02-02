@@ -126,14 +126,13 @@ def parse_contents(contents, filename, date):
         })
     ])
 
-dbn+=1
-print(dbn ,"- Running Callback...")
+print("\n Running Callback...\n")
 @app.callback(Output('output-data-upload', 'children'),
               [Input('upload-data', 'contents')],
               [State('upload-data', 'filename'),
                State('upload-data', 'last_modified')])
 def update_output(list_of_contents, list_of_names, list_of_dates):
-    print("---\n update_output() ...")
+    print("---\n update_output()\n ...")
     if list_of_contents is not None:
         children = [
             parse_contents(c, n, d) for c, n, d in
