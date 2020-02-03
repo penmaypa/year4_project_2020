@@ -111,7 +111,7 @@ def parse_contents(contents, filename, date):
             'There was an error processing this file.'
         ])
 
-    return visual.generate_table_v3()
+    return visual.generate_table_v2(df)
 
 print("\n Running Callback...\n")
 @app.callback(Output('output-data-upload', 'children'),
