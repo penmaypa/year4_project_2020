@@ -91,10 +91,12 @@ app.layout = html.Div(children=[
 
 # ====  Upload Method ====
 def parse_contents(contents, filename, date):
+    print("\n -> parse_contents() \n")
     content_type, content_string = contents.split(',')
 
     decoded = base64.b64decode(content_string)
     try:
+        print("\n -> parse_contents() -> try: \n")
         if 'csv' in filename:
             # Assume that the user uploaded a CSV file
             df = pd.read_csv(
@@ -108,12 +110,15 @@ def parse_contents(contents, filename, date):
             'There was an error processing this file.'
         ])
 
-    return html.Div([
+    return print("\n -> parse_contents() -> return (pre): \n"), print(df), html.Div([
         html.H5(filename),
+        print("\n -> parse_contents() -> return: -> #1 \n"),
         html.H6(datetime.datetime.fromtimestamp(date)),
+        print("\n -> parse_contents() -> return: -> #2 \n"),
 
         # === Visual Representation here ===
         visual.generate_table("Employment 2017",df),
+        print("\n -> parse_contents() -> return: -> #3 \n"),
         visual.generate_barChart("Employment 2017",df),
 
         html.Hr(),  # horizontal line
@@ -124,7 +129,7 @@ def parse_contents(contents, filename, date):
             'whiteSpace': 'pre-wrap',
             'wordBreak': 'break-all'
         })
-    ])
+    ]), print("\n -> parse_contents() -> return (post): \n")
 
 print("\n Running Callback...\n")
 @app.callback(Output('output-data-upload', 'children'),
@@ -132,8 +137,9 @@ print("\n Running Callback...\n")
               [State('upload-data', 'filename'),
                State('upload-data', 'last_modified')])
 def update_output(list_of_contents, list_of_names, list_of_dates):
-    print("---\n update_output()\n ...")
+    print("\n -> update_output()\n")
     if list_of_contents is not None:
+        print("\n -> update_output() -> if: -> return() \n")
         children = [
             parse_contents(c, n, d) for c, n, d in
             zip(list_of_contents, list_of_names, list_of_dates)]
