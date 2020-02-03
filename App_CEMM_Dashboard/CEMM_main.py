@@ -111,33 +111,7 @@ def parse_contents(contents, filename, date):
             'There was an error processing this file.'
         ])
 
-    return print("\n -> parse_contents() -> return (pre): \n"), html.Div([
-        html.H5(filename),
-        print("\n -> parse_contents() -> return: -> #1 \n"),
-        html.H6(datetime.datetime.fromtimestamp(date)),
-
-        print("\n -> parse_contents() -> return: -> #2 \n"),
-        print("\n -> test-1 \n"),
-
-        visual.read_csv_v2(df),
-
-        print("\n -> test-2 \n"),
-        print(df),
-
-        # === Visual Representation here ===
-        visual.generate_table_v2(df),
-        print("\n -> parse_contents() -> return: -> #3 \n"),
-        #visual.generate_barChart("Employment 2017",df),
-
-        html.Hr(),  # horizontal line
-
-        # For debugging, display the raw contents provided by the web browser
-        html.Div('Raw Content'),
-        html.Pre(contents[0:200] + '...', style={
-            'whiteSpace': 'pre-wrap',
-            'wordBreak': 'break-all'
-        })
-    ]), print("\n -> parse_contents() -> return (post): \n")
+    return visual.generate_table_v3()
 
 print("\n Running Callback...\n")
 @app.callback(Output('output-data-upload', 'children'),
