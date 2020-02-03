@@ -5,6 +5,9 @@ import dash_html_components as html
 import pandas as pd
 import plotly.graph_objects as go
 
+def read_csv_v2(this_file):
+    df = this_file
+    print(this_file)
 
 def read_this_csv(csv_file):
     try:
@@ -12,7 +15,7 @@ def read_this_csv(csv_file):
         data_file = pd.read_csv(csv_file)
         data_valid = "valid"
         data_pack = (data_file, data_valid)
-        return  data_pack
+        return  data_pack, print("\n -> read_this_csv() -> return :... \n"), print(data_file)
     except:
         print("\n -> read_this_cv() -> exception() \n")
         data_file = pd.read_csv("DataException/exc.csv")
@@ -73,6 +76,32 @@ def generate_table(h_name, data_pack, max_rows=100):
                 'backgroundColor':'rgba(216, 222, 109, 0.3)',
             }
         )
+
+
+def generate_table_v2(csv_file, max_rows=100):
+    dataframe = csv_file
+    print("\n -> genreate_table()_v2 \n")
+
+    return html.Div(
+        [
+            html.Table(
+                # Header
+                [html.Tr([html.Th(col) for col in dataframe.columns])] +
+
+                # Body
+                [html.Tr([
+                    html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
+                ]) for i in range(min(len(dataframe), max_rows))],
+            )
+        ],
+        style={
+            'height':'500px',
+            'width':'48%',
+            'float':'left',
+            #'backgroundColor': 'blue',
+            'overflow' :'scroll'
+        }
+    )
 
 def generate_barChart(h_name, data_pack):
     try:

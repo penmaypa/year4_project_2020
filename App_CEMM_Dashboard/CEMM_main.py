@@ -92,6 +92,7 @@ app.layout = html.Div(children=[
 # ====  Upload Method ====
 def parse_contents(contents, filename, date):
     print("\n -> parse_contents() \n")
+    print("\n -> parse_contents() -> Printing....\n"), print("\n printing content (pre)"), print(contents), print("\n printing content (post)"), print(filename)
     content_type, content_string = contents.split(',')
 
     decoded = base64.b64decode(content_string)
@@ -110,16 +111,23 @@ def parse_contents(contents, filename, date):
             'There was an error processing this file.'
         ])
 
-    return print("\n -> parse_contents() -> return (pre): \n"), print(df), html.Div([
+    return print("\n -> parse_contents() -> return (pre): \n"), html.Div([
         html.H5(filename),
         print("\n -> parse_contents() -> return: -> #1 \n"),
         html.H6(datetime.datetime.fromtimestamp(date)),
+
         print("\n -> parse_contents() -> return: -> #2 \n"),
+        print("\n -> test-1 \n"),
+
+        visual.read_csv_v2(df),
+
+        print("\n -> test-2 \n"),
+        print(df),
 
         # === Visual Representation here ===
-        visual.generate_table("Employment 2017",df),
+        visual.generate_table_v2(df),
         print("\n -> parse_contents() -> return: -> #3 \n"),
-        visual.generate_barChart("Employment 2017",df),
+        #visual.generate_barChart("Employment 2017",df),
 
         html.Hr(),  # horizontal line
 
