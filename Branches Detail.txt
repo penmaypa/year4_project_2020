@@ -1,0 +1,3 @@
+
+data_connection
+	^ Functionality: The app should be able retrieve the data through a API or a link which will automatically updates the latest datasets
