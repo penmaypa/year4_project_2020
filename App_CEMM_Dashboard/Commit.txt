@@ -1,5 +1,8 @@
 
-> Current State:
+> State #4:
+  ^ FIXED:  Remote url - fetching data from remote, is now working
+
+> State #3
   ^ I just added the upload-function to the html
 
 2020-01-23 05:35
