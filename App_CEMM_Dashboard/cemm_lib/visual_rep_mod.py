@@ -144,7 +144,7 @@ def generate_table_v3():
     )
 
 def generate_table_v4(heading ,csv_file, max_rows=100):
-        dataframe = pd.read_csv("data/emp2017.csv")
+        dataframe = pd.read_csv(csv_file)
         print("\n -> genreate_table()_v4 \n")
 
         return html.Div(
