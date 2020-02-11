@@ -26,7 +26,17 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 # fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
 
+#========================
+# CONFIG
 
+enable_dataConnection = True
+
+#=================
+
+if enable_dataConnection == True:
+    print("\n -> enable_dataConnection \n")
+    df = pd.read_csv("https://data.smartdublin.ie/dataset/4997223b-13b2-4c97-9e88-cd94c6d35aec/resource/8c0f9bed-3b65-40c9-9bd2-505d7bdc1aeb/download/prtb-rents-ctdt.csv")
+    print("-> enable_dataConnection -> printin data..."), print(df)
 dbn = 0
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -86,8 +96,9 @@ app.layout = html.Div(children=[
         ]
     ),
 
-
+    visual.generate_table_v2(df)
 ])
+
 
 # ====  Upload Method ====
 def parse_contents(contents, filename, date):
@@ -112,6 +123,9 @@ def parse_contents(contents, filename, date):
         ])
 
     return visual.generate_table_v2(df)
+
+#===============================
+
 
 print("\n Running Callback...\n")
 @app.callback(Output('output-data-upload', 'children'),
