@@ -143,16 +143,14 @@ def generate_table_v3():
         }
     )
 
-def generate_table_v4():
-
+def generate_table_v4(heading ,csv_file, max_rows=100):
         dataframe = pd.read_csv("data/emp2017.csv")
-        max_rows = 100
-        print("\n -> genreate_table()_v3 \n")
+        print("\n -> genreate_table()_v4 \n")
 
         return html.Div(
             [
                 html.H4(
-                    children= "Heading",
+                    children= "hello",
                     style={
                         'textAlign':'center',
                         'font-weight':'bold'

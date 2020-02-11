@@ -5,7 +5,6 @@ import dash_html_components as html
 import pandas as pd
 import plotly.graph_objects as go
 from cemm_lib import visual_rep_mod as visual
-from cemm_lib import data_con_mod as data_manager
 
 from dash.dependencies import Input, Output, State
 
@@ -34,6 +33,10 @@ enable_dataConnection = True
 
 #=================
 
+if enable_dataConnection == True:
+    print("\n -> enable_dataConnection \n")
+    df = pd.read_csv("https://data.smartdublin.ie/dataset/4997223b-13b2-4c97-9e88-cd94c6d35aec/resource/8c0f9bed-3b65-40c9-9bd2-505d7bdc1aeb/download/prtb-rents-ctdt.csv")
+    print("-> enable_dataConnection -> printin data..."), print(df)
 dbn = 0
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -92,8 +95,8 @@ app.layout = html.Div(children=[
             html.Div(id='output-data-upload'),
         ]
     ),
-    data_manager.dataset_url_manager(enable_dataConnection)
-    #visual.generate_table_v3()
+
+    visual.generate_table_v3()
 ])
 
 
