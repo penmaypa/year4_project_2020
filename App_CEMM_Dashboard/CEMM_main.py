@@ -30,7 +30,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 #========================
 # CONFIG
 
-enable_dataConnection = True
+enable_dataConnection = False
 
 #=================
 

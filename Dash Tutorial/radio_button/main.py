@@ -16,4 +16,12 @@ print("================= \n")
 # print(df.iloc[0][0])
 # print(df.iloc[2][0:-1])
 
-print(df.iloc[0])
+"""
+with open('dub_rent.csv') as f:
+    reader = csv.reader(f)
+    your_list = list(reader)
+
+print(your_list)
+"""
+
+print(pd.isnull(df))
