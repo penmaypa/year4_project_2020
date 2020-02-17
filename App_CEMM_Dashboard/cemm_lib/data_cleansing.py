@@ -1,13 +1,9 @@
 import csv
-import dash
-import dash_core_components as dcc
-import dash_html_components as html
 import pandas as pd
-import plotly.graph_objects as go
-
-df = pd.read_csv("dub_rent.csv")
-max_rows = 10
-# print(df)
+# import dash
+# import dash_core_components as dcc
+# import dash_html_components as html
+# import plotly.graph_objects as go
 
 #===========================
 """
@@ -74,68 +70,3 @@ def obj_list_of_missing_values(df):
     return output_list_of_missing_values
 
 #========================================
-
-#=========================================
-# INPUTS:  df = dataframe
-# OUTPUTS:  A LIST of rows that has missing values
-
-def find_missing_value(df):
-    row = len(df)
-    col = len(df.columns)
-
-    l1_list = []
-    l2_list = []
-    l3_tup = {True, 'value'}
-
-
-    count_row = 0
-    while(count_row < row):
-        #print("row ", count_row)
-        new_row = []
-        row_empty_exist = False
-
-        count_col = 0
-        while (count_col < col):
-            is_empty = pd.isnull(df.iloc[count_row][count_col])
-
-            if is_empty == True:
-                #print(count_row, ", ", count_col)
-                new_row.append("**", df.iloc[count_row][count_col],"**")
-            else:
-                new_row.append(df.iloc[count_row][count_col])
-
-            count_col = count_col + 1
-
-        if row_empty_exist == True:
-            missing_value.append(new_row)
-
-        count_row = count_row + 1
-
-    print(missing_value)
-
-"""
-def find_missing_value_enable(false, df):
-    if enable == True:
-        find_missing_value(df)
-"""
-
-
-# find_missing_value_enable(True,df)
-
-def test_run():
-    # print(len(df.columns))
-    print(df.size)
-
-print("================= \n")
-print(obj_list_of_missing_values(df))
-
-# print(df.iloc[0:0])
-# print(df.columns)
-# print(df.iloc[0][0])
-# print(df.iloc[2][0:-1])
-
-#print(pd.isnull(df.iloc[2][2]))
-
-
-# print(len(df))
-# print(df.size)
