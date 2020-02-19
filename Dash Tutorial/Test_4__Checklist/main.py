@@ -19,13 +19,25 @@ def dcleanse_table(df):
 
     return html.Div(
         html.Table(
-            [html.Tr([html.Th(col) for col in dataframe.columns])] +
-
+            [
+                html.Tr([html.Th(col) for col in dataframe.columns])
+            ]
+            +
             # Body
-            [html.Tr([
-                html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
-            ]) for i in range(len(dataframe))],
-            # ]) for i in dataframe],
+            [
+                html.Tr(
+                    [
+                        html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
+                    ]
+                    +
+                    # NOTE: Additional objects here for each row:
+                    [
+                        html.Div(
+                            children="test"
+                        )
+                    ],
+                ) for i in range(len(dataframe))
+            ],
         )
     )
 
