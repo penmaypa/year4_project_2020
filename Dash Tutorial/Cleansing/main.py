@@ -21,7 +21,7 @@ FUNCTION:
  ACCESSING THE OBJECT:
     Tuple (dataframe, Lists[])
         ^ dataframe
-        ^ Lists: layer 1
+        ^ Lists: L1 - list of rows
             ^ List: L2 - New Row: Contains a list of cells of thes same row
                 ^ Tupple (row_number, Boolean, Value ):
                     > Row number

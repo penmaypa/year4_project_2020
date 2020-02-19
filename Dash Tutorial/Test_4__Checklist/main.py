@@ -18,7 +18,8 @@ def dcleanse_table(df):
     dataframe = df
     start_n = 0
 
-    # rows_with_missing_value = dcc. 
+
+    #rows_with_missing_value = dcc.
 
     return html.Div(
         html.Table(
@@ -30,7 +31,13 @@ def dcleanse_table(df):
             [
                 html.Tr(
                     [
-                        html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
+                        html.Td(
+                            dataframe.iloc[i][col],
+                            # - Style attribute
+                            style={
+                                'backgroundColor':'yellow'
+                            }
+                        ) for col in dataframe.columns
                     ]
                     +
                     [ # NOTE: Additional objects here for each row:
