@@ -12,10 +12,13 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 df = pd.read_csv("dub_rent.csv")
 
-#===================================
+#===========================
 
 def dcleanse_table(df):
     dataframe = df
+    start_n = 0
+
+    # rows_with_missing_value = dcc. 
 
     return html.Div(
         html.Table(
@@ -30,11 +33,15 @@ def dcleanse_table(df):
                         html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
                     ]
                     +
-                    # NOTE: Additional objects here for each row:
-                    [
-                        html.Div(
-                            children="test"
-                        )
+                    [ # NOTE: Additional objects here for each row:
+                        dcc.RadioItems(
+                            # REMINDER: Put ID here
+                            options=[
+                                  {'label': 'Ignore', 'value': 'ign'},
+                                  {'label': 'Delete', 'value': 'del'}
+                            ],
+                            value='ign'
+                        ),
                     ],
                 ) for i in range(len(dataframe))
             ],
@@ -57,6 +64,8 @@ app.layout = html.Div([
 def update_output_div(input_value):
     return 'You\'ve entered "{}"'.format(input_value)
 """
+def set_cities_value(available_options):
+    return available_options[0]['value']
 
 if __name__ == '__main__':
     app.run_server(debug=True)
