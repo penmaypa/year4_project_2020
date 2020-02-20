@@ -29,6 +29,7 @@ def extractor__to_html_row(obj_missing_value):
     for k in list_of_rows:
         listOf_cell = list_of_rows[n_row]
         list_of_row_radio_items = []
+        list_x1 = []
         # print("\n -> extractor() --> for k in list_of_rows : ", n_row ,"\n")
         # print("\n -> extractor() --> for k in list_of_rows --> printing this_cell ", this_cell ,"\n")
 
@@ -40,8 +41,6 @@ def extractor__to_html_row(obj_missing_value):
             cell_index = this_cell[0]
             cell_index_x = cell_index[0]
             cell_index_y = cell_index[1]
-
-            list_x1=[]
 
             cell_value = this_cell[2]
 
@@ -58,7 +57,7 @@ def extractor__to_html_row(obj_missing_value):
                 bg_cell = "white"
 
 
-            list_x1=[
+            list_x1_2=[
                 html.Td(
                     cell_value,
                     style={
@@ -68,20 +67,21 @@ def extractor__to_html_row(obj_missing_value):
 
             ]
 
-            list_x3 = [
-                dcc.RadioItems(
-                    id = 'radioitems_'+str(cell_index_x)+'_'+str(cell_index_y),
-                    options=[
-                         {'label': 'Ignore', 'value': 'ign'},
-                         {'label': 'Delete', 'value': 'del'}
-                    ],
-                )
-            ]
+            list_x1 = list_x1 + list_x1_2
 
-            list_x1 = list_x1 + list_x3
-            list_of_row_radio_items = list_of_row_radio_items + list_x1
+        # END (for this_cell in listOf_cell)
+        list_x3 = [
+            dcc.RadioItems(
+                id = 'radioitems_'+str(cell_index_x)+'_'+str(cell_index_y),
+                options=[
+                     {'label': 'Ignore', 'value': 'ign'},
+                     {'label': 'Delete', 'value': 'del'}
+                ],
+            )
+        ]
 
-
+        list_x4 = list_x1 + list_x3
+        list_of_row_radio_items = list_of_row_radio_items + list_x4
 
         print("\n test_4")
         print(type(list_x1))
