@@ -23,11 +23,11 @@ def extractor__to_html_row(obj_missing_value):
     list_of_rows = obj_missing_value[1]
     n_row = 0
     table_head =[]
-    list_of_row_radio_items = []
-
+    list_of_tr_item =[]
 
     for k in list_of_rows:
         listOf_cell = list_of_rows[n_row]
+        list_of_row_radio_items = []
         # print("\n -> extractor() --> for k in list_of_rows : ", n_row ,"\n")
         # print("\n -> extractor() --> for k in list_of_rows --> printing this_cell ", this_cell ,"\n")
 
@@ -55,37 +55,46 @@ def extractor__to_html_row(obj_missing_value):
                 bg_cell = "white"
 
             list_of_row_radio_items.append(
-                html.Tr(
-                    [
-                        html.Td(
-                            cell_value,
-                            style={
-                                'backgroundColor' : bg_cell
-                            }
-                        )
+                [
+                    html.Td(
+                        cell_value,
+                        style={
+                            'backgroundColor' : bg_cell
+                        }
+                    )
 
-                    ]
-                    +
-                    [
-                        dcc.RadioItems(
-                            id = 'radioitems_'+str(cell_index_x)+'_'+str(cell_index_y),
-                            options=[
-                                 {'label': 'Ignore', 'value': 'ign'},
-                                 {'label': 'Delete', 'value': 'del'}
-                            ],
-                        )
-                    ]
-                )
+                ]
+                +
+                [
+                    dcc.RadioItems(
+                        id = 'radioitems_'+str(cell_index_x)+'_'+str(cell_index_y),
+                        options=[
+                             {'label': 'Ignore', 'value': 'ign'},
+                             {'label': 'Delete', 'value': 'del'}
+                        ],
+                    )
+                ]
             )
+
+        list_of_tr_item.append(
+            html.Tr(
+                list_of_row_radio_items
+            )
+        )
 
         n_row = n_row + 1
 
+    print("\n test_2 \n")
+    print(list_of_tr_item[1])
+    print("\n")
+
     html_table =html.Table(
-    [
-        html.Tr([html.Th(col) for col in this_df.columns])
-    ] +
-                list_of_row_radio_items
-            )
+        [
+            html.Tr([html.Th(col) for col in this_df.columns])
+        ]
+        +
+        list_of_tr_item
+    )
 
     print("\n printing the object: \n")
     print(obj_missing_value)
