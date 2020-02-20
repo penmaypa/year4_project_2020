@@ -25,6 +25,7 @@ def extractor__to_html_row(obj_missing_value):
     table_head =[]
     list_of_tr_item =[]
 
+
     for k in list_of_rows:
         listOf_cell = list_of_rows[n_row]
         list_of_row_radio_items = []
@@ -40,6 +41,8 @@ def extractor__to_html_row(obj_missing_value):
             cell_index_x = cell_index[0]
             cell_index_y = cell_index[1]
 
+            list_x1=[]
+
             cell_value = this_cell[2]
 
             print("\n -> extractor()",
@@ -54,7 +57,7 @@ def extractor__to_html_row(obj_missing_value):
             else:
                 bg_cell = "white"
 
-            list_of_row_radio_items.append(
+            list_x1.append(
                 [
                     html.Td(
                         cell_value,
@@ -75,17 +78,29 @@ def extractor__to_html_row(obj_missing_value):
                     )
                 ]
             )
+        print("\n test_4")
+        print(type(list_x1))
+        print(list_x1)
+        print(type(list_of_row_radio_items))
 
-        list_of_tr_item.append(
-            html.Tr(
-                list_of_row_radio_items
-            )
-        )
+        #list_x1_tup = tuple(list_x1)
+
+        print("\n")
+        list_of_row_radio_items = list_of_row_radio_items + list_x1
+        list_x2 = [html.Tr(
+            list_of_row_radio_items
+        )]
+
+        list_of_tr_item = list_of_tr_item + list_x2
+
+        print("\n test_3:")
+        print(list_of_row_radio_items)
+        print("\n")
 
         n_row = n_row + 1
 
     print("\n test_2 \n")
-    print(list_of_tr_item[1])
+    print(list_of_tr_item)
     print("\n")
 
     html_table =html.Table(
@@ -108,7 +123,6 @@ def extractor__to_html_row(obj_missing_value):
 def dcleanse_table(df):
     dataframe = df
     start_n = 0
-
 
     #rows_with_missing_value = dcc.
 
@@ -152,7 +166,7 @@ def dcleanse_table(df):
 
 # extractor(df_obj)
 app.layout = html.Div([
-    # dcleanse_table(df)
+     # dcleanse_table(df)
     extractor__to_html_row(df_obj)
     # visual.generate_table_v2(df_obj[0])
 ])
