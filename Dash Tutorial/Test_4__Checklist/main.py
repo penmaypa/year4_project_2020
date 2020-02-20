@@ -22,6 +22,7 @@ def extractor__to_html_row(obj_missing_value):
     m.dprint("-> ... extractor()")
     list_of_rows = obj_missing_value[1]
     n_row = 0
+    table_head =[]
     list_of_row_radio_items = []
 
 
@@ -80,6 +81,9 @@ def extractor__to_html_row(obj_missing_value):
         n_row = n_row + 1
 
     html_table =html.Table(
+    [
+        html.Tr([html.Th(col) for col in this_df.columns])
+    ] +
                 list_of_row_radio_items
             )
 
