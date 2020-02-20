@@ -78,7 +78,8 @@ def generate_table(h_name, data_pack, max_rows=100):
         )
 
 
-def generate_table_v2(csv_file, max_rows=100):
+def generate_table_v2(csv_file):
+    max_rows=100
     dataframe = csv_file
     print("\n -> genreate_table()_v2 \n")
 
