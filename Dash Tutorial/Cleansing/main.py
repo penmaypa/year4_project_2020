@@ -21,8 +21,8 @@ FUNCTION:
  ACCESSING THE OBJECT:
     Tuple (dataframe, Lists[])
         ^ dataframe
-        ^ Lists: L1 - list of rows
-            ^ List: L2 - New Row: Contains a list of cells of thes same row
+        ^ Lists of lists : L1 - list of rows
+            ^ List of tupple: L2 - New Row: Contains a list of cells of thes same row
                 ^ Tupple (row_number, Boolean, Value ):
                     > Row number
                     > Boolean: If the value of the cell is valid
@@ -56,9 +56,9 @@ def obj_list_of_missing_values(df):
                 is_valid_row = False
 
             if is_valid_value == False:
-                new_row.append(((row,col),False, df.iloc[count_row][count_col]))
+                new_row.append(((count_row,count_col),False, df.iloc[count_row][count_col]))
             else:
-                new_row.append(((row,col),True, df.iloc[count_row][count_col]))
+                new_row.append(((count_row,count_col),True, df.iloc[count_row][count_col]))
 
             count_col = count_col + 1
 
