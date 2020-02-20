@@ -57,27 +57,32 @@ def extractor__to_html_row(obj_missing_value):
             else:
                 bg_cell = "white"
 
-            list_x1.append(
-                [
-                    html.Td(
-                        cell_value,
-                        style={
-                            'backgroundColor' : bg_cell
-                        }
-                    )
 
-                ]
-                +
-                [
-                    dcc.RadioItems(
-                        id = 'radioitems_'+str(cell_index_x)+'_'+str(cell_index_y),
-                        options=[
-                             {'label': 'Ignore', 'value': 'ign'},
-                             {'label': 'Delete', 'value': 'del'}
-                        ],
-                    )
-                ]
-            )
+            list_x1=[
+                html.Td(
+                    cell_value,
+                    style={
+                        'backgroundColor' : bg_cell
+                    }
+                )
+
+            ]
+
+            list_x3 = [
+                dcc.RadioItems(
+                    id = 'radioitems_'+str(cell_index_x)+'_'+str(cell_index_y),
+                    options=[
+                         {'label': 'Ignore', 'value': 'ign'},
+                         {'label': 'Delete', 'value': 'del'}
+                    ],
+                )
+            ]
+
+            list_x1 = list_x1 + list_x3
+            list_of_row_radio_items = list_of_row_radio_items + list_x1
+
+
+
         print("\n test_4")
         print(type(list_x1))
         print(list_x1)
@@ -86,7 +91,7 @@ def extractor__to_html_row(obj_missing_value):
         #list_x1_tup = tuple(list_x1)
 
         print("\n")
-        list_of_row_radio_items = list_of_row_radio_items + list_x1
+
         list_x2 = [html.Tr(
             list_of_row_radio_items
         )]
