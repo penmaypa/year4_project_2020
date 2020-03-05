@@ -123,7 +123,6 @@ def extractor__to_html_row(obj_missing_value):
     html_output = html.Div(
         [
             html_table,
-            html.Button('Apply', id='apply_btn')
         ],
     )
 
@@ -192,10 +191,14 @@ app.layout = html.Div([
      # dcleanse_table(df)
     extractor__to_html_row(df_obj),
     # visual.generate_table_v2(df_obj[0])
-   html.Div(
-        id='output-container-button',
-        children="output here"
-   )
+    html.Div([
+        html.Button('Apply', id='apply_btn'),
+       html.Div(
+            id='output-container-button',
+            children="output here"
+       )
+    ])
+
 ])
 
 """
@@ -206,16 +209,14 @@ app.layout = html.Div([
 def update_output_div(input_value):
     return 'You\'ve entered "{}"'.format(input_value)
 """
-app.callback(
-        Output('output-container-button', 'children'),
-        [Input('apply_btn', 'n_clicks')]
-    # Archive:
-    # Input('button', 'n_clicks')
-)
+@app.callback(
+    Output('output-container-button', 'children'),
+    [Input('apply_btn', 'n_clicks')]
+    )
 
 def update_output(n_clicks):
-    print("\n -> #3 update_output_div() \n")
-    return "just an output"
+    return "hello"
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
