@@ -206,7 +206,7 @@ app.layout = html.Div([
 def update_output_div(input_value):
     return 'You\'ve entered "{}"'.format(input_value)
 """
-app.callback(
+@app.callback(
         Output('output-container-button', 'children'),
         [Input('apply_btn', 'n_clicks')]
     # Archive:
