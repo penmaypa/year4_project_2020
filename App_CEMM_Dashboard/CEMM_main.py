@@ -6,6 +6,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from cemm_lib import visual_rep_mod as visual
 from cemm_lib import data_con_mod as data_manager
+#from cemm_lib import data_cleansing as dcleanse
 
 from dash.dependencies import Input, Output, State
 
@@ -30,7 +31,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 #========================
 # CONFIG
 
-enable_dataConnection = False
+enable_dataConnection = True
 
 #=================
 
@@ -92,8 +93,10 @@ app.layout = html.Div(children=[
             html.Div(id='output-data-upload'),
         ]
     ),
-    data_manager.dataset_url_manager(enable_dataConnection)
+    data_manager.dataset_url_manager(enable_dataConnection),
     #visual.generate_table_v3()
+    #extractor__to_html_row(dcleanse.obj_list_of_missing_values(df))
+
 ])
 
 
@@ -122,6 +125,114 @@ def parse_contents(contents, filename, date):
     return visual.generate_table_v2(df)
 
 #===============================
+
+
+def extractor__to_html_row(obj_missing_value):
+    this_df = obj_missing_value[0]
+    m.dprint("-> ... extractor()")
+    list_of_rows = obj_missing_value[1]
+    n_row = 0
+    table_head =[]
+    list_of_tr_item =[]
+
+
+    for k in list_of_rows:
+        listOf_cell = list_of_rows[n_row]
+        list_of_row_radio_items = []
+        list_x1 = []
+        # print("\n -> extractor() --> for k in list_of_rows : ", n_row ,"\n")
+        # print("\n -> extractor() --> for k in list_of_rows --> printing this_cell ", this_cell ,"\n")
+
+        print("\n -> extractor()"
+            " \n --> for k in list_of_rows"
+        )
+        # n_cell = 0
+        for this_cell in listOf_cell:
+            cell_index = this_cell[0]
+            cell_index_x = cell_index[0]
+            cell_index_y = cell_index[1]
+
+            cell_value = this_cell[2]
+
+            print("\n -> extractor()",
+                " \n --> for k in list_of_rows"
+                "\n --> for this_cell in  listOf_cell"
+                 ,this_cell ,"\n"
+            )
+
+            if this_cell[1] == False:
+                m.dprint("-> for k in list_of_rows --> if this cell")
+                bg_cell = "rgb(255, 179, 153)"
+            else:
+                bg_cell = "white"
+
+
+            list_x1_2=[
+                html.Td(
+                    cell_value,
+                    style={
+                        'backgroundColor' : bg_cell
+                    }
+                )
+
+            ]
+
+            list_x1 = list_x1 + list_x1_2
+
+        # END (for this_cell in listOf_cell)
+        list_x3 = [
+            dcc.RadioItems(
+                id = 'radioitems_'+str(cell_index_x)+'_'+str(cell_index_y),
+                options=[
+                     {'label': 'Ignore', 'value': 'ign'},
+                     {'label': 'Delete', 'value': 'del'}
+                ],
+            )
+        ]
+
+        list_x4 = list_x1 + list_x3
+        list_of_row_radio_items = list_of_row_radio_items + list_x4
+
+        print("\n test_4")
+        print(type(list_x1))
+        print(list_x1)
+        print(type(list_of_row_radio_items))
+
+        #list_x1_tup = tuple(list_x1)
+
+        print("\n")
+
+        list_x2 = [html.Tr(
+            list_of_row_radio_items
+        )]
+
+        list_of_tr_item = list_of_tr_item + list_x2
+
+        print("\n test_3:")
+        print(list_of_row_radio_items)
+        print("\n")
+
+        n_row = n_row + 1
+
+    print("\n test_2 \n")
+    print(list_of_tr_item)
+    print("\n")
+
+    html_table =html.Table(
+        [
+            html.Tr([html.Th(col) for col in this_df.columns])
+        ]
+        +
+        list_of_tr_item
+    )
+
+    print("\n printing the object: \n")
+    print(obj_missing_value)
+    print("\n printing the return: \n")
+    print(html_table)
+
+    return html_table
+#=====================================
 
 
 print("\n Running Callback...\n")

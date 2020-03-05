@@ -77,6 +77,8 @@ def extractor__to_html_row(obj_missing_value):
                      {'label': 'Ignore', 'value': 'ign'},
                      {'label': 'Delete', 'value': 'del'}
                 ],
+                value='ign',
+                labelStyle={'display': 'inline-block'}
             )
         ]
 
@@ -115,6 +117,7 @@ def extractor__to_html_row(obj_missing_value):
         +
         list_of_tr_item
     )
+
 
     print("\n printing the object: \n")
     print(obj_missing_value)
@@ -157,7 +160,12 @@ def dcleanse_table(df):
                                   {'label': 'Ignore', 'value': 'ign'},
                                   {'label': 'Delete', 'value': 'del'}
                             ],
-                            value='ign'
+                            style={
+                                "value": "ign",
+                                "display":"inline-block"
+                            },
+                            value='ign',
+                            labelStyle={'display': 'inline-block'}
                         ),
                     ],
                 ) for i in range(len(dataframe))
