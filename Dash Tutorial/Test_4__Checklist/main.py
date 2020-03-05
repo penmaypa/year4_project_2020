@@ -2,7 +2,7 @@ import dash
 import pandas as pd
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 from cemm_lib import visual_rep_mod as visual
 from cemm_lib import misc_mod as m
 from cemm_lib import data_cleansing as cleansing
@@ -24,6 +24,7 @@ def extractor__to_html_row(obj_missing_value):
     n_row = 0
     table_head =[]
     list_of_tr_item =[]
+
 
 
     for k in list_of_rows:
@@ -51,7 +52,6 @@ def extractor__to_html_row(obj_missing_value):
             )
 
             if this_cell[1] == False:
-                m.dprint("-> for k in list_of_rows --> if this cell")
                 bg_cell = "rgb(255, 179, 153)"
             else:
                 bg_cell = "white"
@@ -72,7 +72,7 @@ def extractor__to_html_row(obj_missing_value):
         # END (for this_cell in listOf_cell)
         list_x3 = [
             dcc.RadioItems(
-                id = 'radioitems_'+str(cell_index_x)+'_'+str(cell_index_y),
+                id = 'radioitem_'+str(cell_index_x)+'_'+str(cell_index_y),
                 options=[
                      {'label': 'Ignore', 'value': 'ign'},
                      {'label': 'Delete', 'value': 'del'}
@@ -198,24 +198,20 @@ app.layout = html.Div([
    )
 ])
 
-"""
-@app.callback(
-    Output(component_id='my-div', component_property='children'),
-    [Input(component_id='my-id', component_property='value')]
-)
-def update_output_div(input_value):
-    return 'You\'ve entered "{}"'.format(input_value)
-"""
 @app.callback(
         Output('output-container-button', 'children'),
-        [Input('apply_btn', 'n_clicks')]
-    # Archive:
-    # Input('button', 'n_clicks')
+        [Input('apply_btn', 'n_clicks')],
+        [State('radioitem_12_4', 'value')]
 )
 
-def update_output(n_clicks):
+def update_output(n_clicks, input_1):
     print("\n -> #3 update_output_div() \n")
-    return "just an output"
+
+    # Print Debug:
+    print("\n printing value:")
+    print(input_1, "\n")
+
+    return
 
 if __name__ == '__main__':
     app.run_server(debug=True)
