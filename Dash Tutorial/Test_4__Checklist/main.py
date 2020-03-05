@@ -110,6 +110,8 @@ def extractor__to_html_row(obj_missing_value):
     print(list_of_tr_item)
     print("\n")
 
+    # DESCRIPTION:
+    #   Table -- with rows of missing value + option buttons
     html_table =html.Table(
         [
             html.Tr([html.Th(col) for col in this_df.columns])
@@ -118,13 +120,21 @@ def extractor__to_html_row(obj_missing_value):
         list_of_tr_item
     )
 
+    html_output = html.Div(
+        [
+            html_table,
+            html.Button('Submit', id='apply_btn')
+        ],
+    )
 
+    # DEBUG PRINT:
     print("\n printing the object: \n")
     print(obj_missing_value)
     print("\n printing the return: \n")
     print(html_table)
+    print("\n")
 
-    return html_table
+    return html_output
 
 #======================
 
@@ -180,8 +190,12 @@ def dcleanse_table(df):
 # extractor(df_obj)
 app.layout = html.Div([
      # dcleanse_table(df)
-    extractor__to_html_row(df_obj)
+    extractor__to_html_row(df_obj),
     # visual.generate_table_v2(df_obj[0])
+   html.Div(
+        id='output-container-button',
+        children="output here"
+   )
 ])
 
 """
@@ -192,8 +206,17 @@ app.layout = html.Div([
 def update_output_div(input_value):
     return 'You\'ve entered "{}"'.format(input_value)
 """
-def set_cities_value(available_options):
-    return available_options[0]['value']
+app.callback(
+        Output('output-container-button', 'children'),[
+        Input('apply_btn', 'n_clicks')
+    ]
+    # Archive:
+    # Input('button', 'n_clicks')
+)
+
+def update_output(n_clicks):
+    print("\n -> #3 update_output_div() \n")
+    return "just an output"
 
 if __name__ == '__main__':
     app.run_server(debug=True)
