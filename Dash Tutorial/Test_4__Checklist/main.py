@@ -15,6 +15,10 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 df = pd.read_csv("dub_rent_missing.csv")
 df_obj = cleansing.obj_list_of_missing_values(df)
 
+itemx_state = ""
+list_of_radio_items_id = []
+
+
 #===========================
 
 def extractor__to_html_row(obj_missing_value):
@@ -79,7 +83,10 @@ def extractor__to_html_row(obj_missing_value):
                 ],
                 value='ign',
                 labelStyle={'display': 'inline-block'}
-            )
+            ),
+            #// add_to_bt_itemlist(component_id, component_value)
+            print("\n #16 \n"),
+            list_of_radio_items_id.append('radioitem_'+str(cell_index_x)+'_'+str(cell_index_y))
         ]
 
         list_x4 = list_x1 + list_x3
@@ -183,8 +190,17 @@ def dcleanse_table(df):
         )
     )
 
+def add_to_bt_itemlist(radio_item, id):
 
+    return
 
+def callback_loop_radioitem_id():
+    list_of_rd_input=[]
+    for item in list_of_radio_items_id :
+        list_of_rd_input.append(State(item,'value'))
+
+    print("\n #18 ",list_of_rd_input,"\n")
+    return list_of_rd_input
 #===================================
 
 # extractor(df_obj)
@@ -195,22 +211,29 @@ app.layout = html.Div([
    html.Div(
         id='output-container-button',
         children="output here"
-   )
+   ),
+
+   print("\n #17 ", list_of_radio_items_id,"\n")
+   #// itemx_state = State('radioitem_12_4','value'),
+
+  #// print("\n #12 Printing state :\n", itemx_state)
 ])
 
 @app.callback(
-        Output('output-container-button', 'children'),
-        [Input('apply_btn', 'n_clicks')],
-        [State('radioitem_12_4', 'value')]
+    Output('output-container-button', 'children'),
+    [Input('apply_btn', 'n_clicks')],
+    callback_loop_radioitem_id()
+    #// callback_loop(),
 )
 
-def update_output(n_clicks, input_1):
+def update_output(n_clicks, *radio_item_id):
     print("\n -> #3 update_output_div() \n")
 
     # Print Debug:
-    print("\n printing value:")
-    print(input_1, "\n")
-
+    print("\n #13 printing value:")
+    print(radio_item_id)
+    #// print(State(component_id('radioitem_12_4')))
+    #// print(list_x5,"\n")
     return
 
 if __name__ == '__main__':
