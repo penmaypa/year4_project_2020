@@ -16,20 +16,34 @@ df = pd.read_csv("dub_rent_missing.csv")
 df_obj = cleansing.obj_list_of_missing_values(df)
 
 itemx_state = ""
+
+
+list_of_row_column_pair=[]
+""" ^
+> List -- list of tupples
+    ^ Tupple
+        > row
+        > column
+"""
 list_of_radio_items_id = []
+list_of_rd_input=[]
+
 
 
 #===========================
 
-def extractor__to_html_row(obj_missing_value):
-    this_df = obj_missing_value[0]
+# DESCRIPTION:
+#   Returns a HTML Object that displays all the  value row
+#   each row has a radio-button for options -- ignore, delete, replace.
+def extractor__to_html_row(obj__value):
+    this_df = obj__value[0]
     m.dprint("-> ... extractor()")
-    list_of_rows = obj_missing_value[1]
+    list_of_rows = obj__value[1]
     n_row = 0
     table_head =[]
+
     list_of_tr_item =[]
-
-
+    list_of_rd_input=[]
 
     for k in list_of_rows:
         listOf_cell = list_of_rows[n_row]
@@ -68,7 +82,6 @@ def extractor__to_html_row(obj_missing_value):
                         'backgroundColor' : bg_cell
                     }
                 )
-
             ]
 
             list_x1 = list_x1 + list_x1_2
@@ -86,7 +99,8 @@ def extractor__to_html_row(obj_missing_value):
             ),
             #// add_to_bt_itemlist(component_id, component_value)
             print("\n #16 \n"),
-            list_of_radio_items_id.append('radioitem_'+str(cell_index_x)+'_'+str(cell_index_y))
+            list_of_radio_items_id.append('radioitem_'+str(cell_index_x)+'_'+str(cell_index_y)),
+            list_of_row_column_pair.append((cell_index_x, cell_index_y))
         ]
 
         list_x4 = list_x1 + list_x3
@@ -118,7 +132,7 @@ def extractor__to_html_row(obj_missing_value):
     print("\n")
 
     # DESCRIPTION:
-    #   Table -- with rows of missing value + option buttons
+    #   Table -- with rows of  value + option buttons
     html_table =html.Table(
         [
             html.Tr([html.Th(col) for col in this_df.columns])
@@ -136,7 +150,7 @@ def extractor__to_html_row(obj_missing_value):
 
     # DEBUG PRINT:
     print("\n printing the object: \n")
-    print(obj_missing_value)
+    print(obj__value)
     print("\n printing the return: \n")
     print(html_table)
     print("\n")
@@ -149,7 +163,7 @@ def dcleanse_table(df):
     dataframe = df
     start_n = 0
 
-    #rows_with_missing_value = dcc.
+    #rows_with__value = dcc.
 
     return html.Div(
         html.Table(
@@ -194,6 +208,10 @@ def add_to_bt_itemlist(radio_item, id):
 
     return
 
+# DESCRIPTION:
+#   A function that takes the value of each radio-button item.
+# RETURNS:
+#   Returns A list of the value of each radio-button item
 def callback_loop_radioitem_id():
     list_of_rd_input=[]
     for item in list_of_radio_items_id :
@@ -201,9 +219,14 @@ def callback_loop_radioitem_id():
 
     print("\n #18 ",list_of_rd_input,"\n")
     return list_of_rd_input
+
+# DESCRIPTION :
+#   Modify or Deletes the row
+def modify__value_row():
+    return
+
 #===================================
 
-# extractor(df_obj)
 app.layout = html.Div([
      # dcleanse_table(df)
     extractor__to_html_row(df_obj),
@@ -213,10 +236,13 @@ app.layout = html.Div([
         children="output here"
    ),
 
-   print("\n #17 ", list_of_radio_items_id,"\n")
+   print("\n #17 ", list_of_radio_items_id,"\n"),
    #// itemx_state = State('radioitem_12_4','value'),
 
   #// print("\n #12 Printing state :\n", itemx_state)
+
+  print("\n #22"),
+  print(list_of_row_column_pair),
 ])
 
 @app.callback(
@@ -234,7 +260,6 @@ def update_output(n_clicks, *radio_item_id):
     print(radio_item_id)
     #// print(State(component_id('radioitem_12_4')))
     #// print(list_x5,"\n")
-    return
 
 if __name__ == '__main__':
     app.run_server(debug=True)
