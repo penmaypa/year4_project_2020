@@ -18,6 +18,7 @@ df_obj = cleansing.obj_list_of_missing_values(df)
 itemx_state = ""
 
 
+
 list_of_row_column_pair = []
 """ ^
 > List -- list of tupples
@@ -155,6 +156,18 @@ def extractor__to_html_row(obj__value):
             html.Button('Apply', id='apply_btn')
         ],
     )
+
+    L2_3 = obj__value[2]
+    data_is_clean = L2_3[1]
+
+    # DEBUG PRINT:
+    print("\n extractor__to_html_row() #14 :")
+    print("> data_is_clean = ", data_is_clean)
+
+    if data_is_clean == True :
+        html_output = html.Div(
+            children="Data is valid and clean"
+        )
 
     # DEBUG PRINT:
     print("\n printing the object: \n")
