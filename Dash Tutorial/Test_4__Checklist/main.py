@@ -18,7 +18,7 @@ df_obj = cleansing.obj_list_of_missing_values(df)
 itemx_state = ""
 
 
-list_of_row_column_pair=[]
+list_of_row_column_pair = []
 """ ^
 > List -- list of tupples
     ^ Tupple
@@ -40,10 +40,13 @@ def extractor__to_html_row(obj__value):
     m.dprint("-> ... extractor()")
     list_of_rows = obj__value[1]
     n_row = 0
+    row_col_id = ""
+
     table_head =[]
 
     list_of_tr_item =[]
     list_of_rd_input=[]
+    #// list_of_this_pair=[] # A Local Storage for cell x,y coordination
 
     for k in list_of_rows:
         listOf_cell = list_of_rows[n_row]
@@ -55,11 +58,14 @@ def extractor__to_html_row(obj__value):
         print("\n -> extractor()"
             " \n --> for k in list_of_rows"
         )
-        # n_cell = 0
+
+        #=====================
+        # DESC:  Loops through each column-cells in a row:
+        n_cell = 0 # n_cell -- column cell (left to right)
         for this_cell in listOf_cell:
-            cell_index = this_cell[0]
-            cell_index_x = cell_index[0]
-            cell_index_y = cell_index[1]
+            cell_index = this_cell[0] # L4-1
+            cell_index_x = cell_index[0] #L5-1
+            cell_index_y = cell_index[1] #L5-2
 
             cell_value = this_cell[2]
 
@@ -71,6 +77,8 @@ def extractor__to_html_row(obj__value):
 
             if this_cell[1] == False:
                 bg_cell = "rgb(255, 179, 153)"
+                row_col_id = str(cell_index_x)+"_"+str(n_cell)
+                list_of_row_column_pair.append((cell_index_x,n_cell))
             else:
                 bg_cell = "white"
 
@@ -85,11 +93,12 @@ def extractor__to_html_row(obj__value):
             ]
 
             list_x1 = list_x1 + list_x1_2
-
+            n_cell = n_cell + 1
         # END (for this_cell in listOf_cell)
+
         list_x3 = [
             dcc.RadioItems(
-                id = 'radioitem_'+str(cell_index_x)+'_'+str(cell_index_y),
+                id = 'radioitem_'+str(row_col_id),
                 options=[
                      {'label': 'Ignore', 'value': 'ign'},
                      {'label': 'Delete', 'value': 'del'}
@@ -99,8 +108,7 @@ def extractor__to_html_row(obj__value):
             ),
             #// add_to_bt_itemlist(component_id, component_value)
             print("\n #16 \n"),
-            list_of_radio_items_id.append('radioitem_'+str(cell_index_x)+'_'+str(cell_index_y)),
-            list_of_row_column_pair.append((cell_index_x, cell_index_y))
+            list_of_radio_items_id.append('radioitem_'+str(row_col_id)),
         ]
 
         list_x4 = list_x1 + list_x3

@@ -15,9 +15,8 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 df = pd.read_csv("dub_rent.csv")
 
-print(df.iloc[0][0])
-print("\n ")
+print("\n #1")
+print(df.iloc[2][0])
 #print(df.rows)
-print("\n ")
-print(df.columns)
-#===========================
+#print("\n ")
+##===========================
