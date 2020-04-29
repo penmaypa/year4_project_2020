@@ -18,7 +18,6 @@ df_obj = cleansing.obj_list_of_missing_values(df)
 
 itemx_state = ""
 
-global post_cleaning_df
 post_cleansing_df= df
 
 # DEBUG PRINT:
@@ -33,6 +32,9 @@ list_of_row_column_pair = []
 """
 list_of_radio_items_id = []
 list_of_rd_value=[]
+
+global varlist_post_cleansing_df
+varlist_post_cleansing_df=[]
 
 #=============
 def update_post_cleansing_df():
@@ -84,6 +86,9 @@ def update_post_cleansing_df():
     print("#34 END: Updating the post_cleansing_df")
     print("Printing the new post_cleansing_df")
     print(post_cleansing_df)
+
+    varlist_post_cleansing_df.clear()
+    varlist_post_cleansing_df.append(post_cleansing_df)
 
     print("#32 END: Updating the dataframe [post_cleansing_df]")
 
@@ -357,11 +362,16 @@ def update_output(n_clicks, *radio_item_value_id):
     update_post_cleansing_df()
     print("#31 END: update_post_cleansing_df() ")
 
+    print("#37 START: Printing the varlist [varlist_post_cleansing_df[0]]")
+    print(varlist_post_cleansing_df[0])
+
+    print("37 END")
+
     # ERROR : Not displaying the updated dataframe
     return(
-        visual.generate_table_v2(post_cleansing_df),
-        print("#36 START: Printing the dataframe[post_cleansing_df] return()..."),
-        print(post_cleansing_df),
+        visual.generate_table_v2(varlist_post_cleansing_df[0]),
+        print("#36 START: Printing the dataframe[varlist_post_cleansing_df] return()..."),
+        print(varlist_post_cleansing_df[0]),
         print("36 END")
     )
 
