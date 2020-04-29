@@ -79,9 +79,9 @@ def generate_table(h_name, data_pack, max_rows=100):
 
 
 def generate_table_v2(csv_file):
+    print("\n -> #C.1 START: generate_table()_v2 \n")
     max_rows=100
     dataframe = csv_file
-    print("\n -> genreate_table()_v2 \n")
 
     return html.Div(
         [
@@ -100,7 +100,8 @@ def generate_table_v2(csv_file):
                 [html.Tr([
                     html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
                 ]) for i in range(min(len(dataframe), max_rows))],
-            )
+            ),
+            print("\n -> #C.1 END: generate_table()_v2 \n")
         ],
         style={
             'height':'500px',
@@ -108,8 +109,9 @@ def generate_table_v2(csv_file):
             'float':'left',
             #'backgroundColor': 'blue',
             'overflow' :'scroll'
-        }
+        },
     )
+
 
 def generate_table_v3():
     dataframe = pd.read_csv("data/emp2017.csv")

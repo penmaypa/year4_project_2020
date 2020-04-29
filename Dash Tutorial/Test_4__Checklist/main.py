@@ -13,23 +13,81 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 df = pd.read_csv("dub_rent_missing.csv")
+org_raw_df = df
 df_obj = cleansing.obj_list_of_missing_values(df)
 
 itemx_state = ""
 
+global post_cleaning_df
+post_cleansing_df= df
 
+# DEBUG PRINT:
+# // print("\n #16 : ")
 
 list_of_row_column_pair = []
 """ ^
-> List -- list of tupples
-    ^ Tupple
+> List (L0) -- list of tupples
+    ^ Tupple (L1)
         > row
         > column
 """
 list_of_radio_items_id = []
-list_of_rd_input=[]
+list_of_rd_value=[]
 
+#=============
+def update_post_cleansing_df():
 
+    print("\n #21 START: --> Activated: updated_post_cleaning_df")
+    temp_df = df
+    temp_list_rd_input = list_of_rd_value
+
+    print("\n #25 \n", list_of_rd_value)
+    # LOOP - go through
+    # try:
+    print("\n #23 START --> Activated: loop ")
+    n_index = 0
+    for row_col in list_of_row_column_pair:
+
+        print("\n #26 Looping :", n_index)
+        row = row_col[0]
+        col = row_col[1]
+        cell_input_value = temp_list_rd_input[n_index]
+
+        # DELETE
+        if(cell_input_value == "del"):
+            temp_df = temp_df.drop([row], axis=0)
+            print("\n #28 delete at loop ", n_index)
+
+        n_index = n_index + 1
+
+    print("\n #23 END --> Activated: loop ")
+
+    """
+    except Exception as e:
+        print("\n #25 Exception: ", e)
+        print("\n #24 --> Exception activated ")
+        temp_df = df
+    """
+
+    # Reset Index
+    temp_df = temp_df.reset_index(drop=True)
+
+    print("")
+
+    print("#32 START: Updating the dataframe [post_cleansing_df]")
+    #print("#33 START: Displaying the old post_cleansing_df...")
+    #print(post_cleansing_df)
+    #print("33 END")
+
+    print("#34 START: Updating the post_cleansing_df")
+    post_cleansing_df = temp_df
+    print("#34 END: Updating the post_cleansing_df")
+    print("Printing the new post_cleansing_df")
+    print(post_cleansing_df)
+
+    print("#32 END: Updating the dataframe [post_cleansing_df]")
+
+    print("\n #21 END: --> Activated: updated_post_cleaning_df")
 
 #===========================
 
@@ -234,12 +292,14 @@ def add_to_bt_itemlist(radio_item, id):
 # RETURNS:
 #   Returns A list of the value of each radio-button item
 def callback_loop_radioitem_id():
+    print("\n #30 START : callback_loop_radioitem_id() activated")
     list_of_rd_input=[]
     for item in list_of_radio_items_id :
         list_of_rd_input.append(State(item,'value'))
 
     print("\n #18 ",list_of_rd_input,"\n")
     return list_of_rd_input
+    print("\n #30 END : callback_loop_radioitem_id() activated")
 
 # DESCRIPTION :
 #   Modify or Deletes the row
@@ -250,11 +310,13 @@ def modify__value_row():
 
 app.layout = html.Div([
      # dcleanse_table(df)
+     print("#29 START:  Loading layout"),
     extractor__to_html_row(df_obj),
     # visual.generate_table_v2(df_obj[0])
    html.Div(
         id='output-container-button',
         children="output here"
+        # children = output-container-button
    ),
 
    print("\n #17 ", list_of_radio_items_id,"\n"),
@@ -262,8 +324,12 @@ app.layout = html.Div([
 
   #// print("\n #12 Printing state :\n", itemx_state)
 
-  print("\n #22"),
+  print("\n #22 START: Printing list_of_row_column_pair:"),
   print(list_of_row_column_pair),
+  print("\n #22 END \n"),
+  print("#29 END: Loading layout"),
+  print("#35 Printing the latest dataframe [post_cleansing_df]..."),
+  print(post_cleansing_df)
 ])
 
 @app.callback(
@@ -272,15 +338,33 @@ app.layout = html.Div([
     callback_loop_radioitem_id()
     #// callback_loop(),
 )
-
-def update_output(n_clicks, *radio_item_id):
-    print("\n -> #3 update_output_div() \n")
+def update_output(n_clicks, *radio_item_value_id):
+    print("\n -> #3 update_output_div()\n \"Apply\" button has been pressed ")
 
     # Print Debug:
     print("\n #13 printing value:")
-    print(radio_item_id)
+    print(radio_item_value_id)
     #// print(State(component_id('radioitem_12_4')))
     #// print(list_x5,"\n")
+
+    print("\n #27 --> Clearing list")
+    list_of_rd_value.clear()
+
+    for item in radio_item_value_id:
+        list_of_rd_value.append(item)
+
+    print("#31 START: update_post_cleansing_df() ")
+    update_post_cleansing_df()
+    print("#31 END: update_post_cleansing_df() ")
+
+    # ERROR : Not displaying the updated dataframe
+    return(
+        visual.generate_table_v2(post_cleansing_df),
+        print("#36 START: Printing the dataframe[post_cleansing_df] return()..."),
+        print(post_cleansing_df),
+        print("36 END")
+    )
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)

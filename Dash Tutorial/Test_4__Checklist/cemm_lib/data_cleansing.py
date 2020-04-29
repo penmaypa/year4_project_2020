@@ -9,6 +9,7 @@ df = pd.read_csv("dub_rent.csv")
 max_rows = 10
 # print(df)
 
+print("\n #2.1 START :  data_cleansing.py activated")
 #===========================
 """
 --------------------------------
@@ -132,6 +133,7 @@ def test_run():
 
 print("================= \n")
 print(obj_list_of_missing_values(df))
+print("\n #2.1 END :  data_cleansing.py activated")
 
 # print(df.iloc[0:0])
 # print(df.columns)
