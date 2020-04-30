@@ -36,6 +36,14 @@ list_of_rd_value=[]
 global varlist_post_cleansing_df
 varlist_post_cleansing_df=[]
 
+global varlist_df_obj
+varlist_df_obj=[]
+varlist_df_obj.clear()
+varlist_df_obj.append(df_obj)
+print("#39 START: printing varlist_df_obj[0]")
+print(varlist_df_obj[0])
+print("#39 END: printing varlist_df_obj[0]")
+
 #=============
 def update_post_cleansing_df():
 
@@ -43,14 +51,26 @@ def update_post_cleansing_df():
     temp_df = df
     temp_list_rd_input = list_of_rd_value
 
+    print("#44 START: printing temp_list_rd_input ... ")
+    print(temp_list_rd_input)
+    print("#44 END \n")
+
     print("\n #25 \n", list_of_rd_value)
     # LOOP - go through
     # try:
+    print("#42 START: printing [list_of_row_column_pair]")
+    print(list_of_row_column_pair)
+    print("#42 END \n ")
+
     print("\n #23 START --> Activated: loop ")
     n_index = 0
     for row_col in list_of_row_column_pair:
 
         print("\n #26 Looping :", n_index)
+        print("#43 START: printing temp_list_rd_input[n_index]")
+        print( temp_list_rd_input[n_index])
+        print("#43 END \n")
+
         row = row_col[0]
         col = row_col[1]
         cell_input_value = temp_list_rd_input[n_index]
@@ -64,12 +84,6 @@ def update_post_cleansing_df():
 
     print("\n #23 END --> Activated: loop ")
 
-    """
-    except Exception as e:
-        print("\n #25 Exception: ", e)
-        print("\n #24 --> Exception activated ")
-        temp_df = df
-    """
 
     # Reset Index
     temp_df = temp_df.reset_index(drop=True)
@@ -103,6 +117,11 @@ def extractor__to_html_row(obj__value):
     this_df = obj__value[0]
     m.dprint("-> ... extractor()")
     list_of_rows = obj__value[1]
+
+    print("#41 START: Printing [list_of_rows] <-- extractor__to_html_row(obj__value)")
+    print(list_of_rows)
+    print("41 END ")
+
     n_row = 0
     row_col_id = ""
 
@@ -216,7 +235,7 @@ def extractor__to_html_row(obj__value):
     html_output = html.Div(
         [
             html_table,
-            html.Button('Apply', id='apply_btn')
+            html.Button('Apply', id='apply_btn',n_clicks=0),
         ],
     )
 
@@ -315,9 +334,13 @@ def modify__value_row():
 
 app.layout = html.Div([
      # dcleanse_table(df)
-     print("#29 START:  Loading layout"),
-    extractor__to_html_row(df_obj),
-    # visual.generate_table_v2(df_obj[0])
+    print("#29 START:  Loading layout"),
+
+    html.Div(
+        id="datacleanse_table",
+        children=extractor__to_html_row(df_obj)
+    ),
+
    html.Div(
         id='output-container-button',
         children="output here"
@@ -338,14 +361,24 @@ app.layout = html.Div([
 ])
 
 @app.callback(
-    Output('output-container-button', 'children'),
+    [Output('datacleanse_table','children'),
+    Output('output-container-button', 'children')],
     [Input('apply_btn', 'n_clicks')],
     callback_loop_radioitem_id()
     #// callback_loop(),
 )
 def update_output(n_clicks, *radio_item_value_id):
-    print("\n -> #3 update_output_div()\n \"Apply\" button has been pressed ")
 
+    datacleanse_table_output=""
+
+    print("#40 START: printing varlist_df_obj[0]")
+    print(varlist_df_obj[0])
+    print("#40 END: printing varlist_df_obj[0]")
+
+    if(n_clicks==0):
+        datacleanse_table_output = extractor__to_html_row(varlist_df_obj[0])
+
+    print("\n -> #3 update_output_div()\n \"Apply\" button has been pressed ")
     # Print Debug:
     print("\n #13 printing value:")
     print(radio_item_value_id)
@@ -365,14 +398,13 @@ def update_output(n_clicks, *radio_item_value_id):
     print("#37 START: Printing the varlist [varlist_post_cleansing_df[0]]")
     print(varlist_post_cleansing_df[0])
 
-    print("37 END")
+    print("#37 END")
+    print("#38 n_clicks=",n_clicks)
 
     # ERROR : Not displaying the updated dataframe
     return(
-        visual.generate_table_v2(varlist_post_cleansing_df[0]),
-        print("#36 START: Printing the dataframe[varlist_post_cleansing_df] return()..."),
-        print(varlist_post_cleansing_df[0]),
-        print("36 END")
+        datacleanse_table_output,
+        visual.generate_table_v2(varlist_post_cleansing_df[0])
     )
 
 
