@@ -6,6 +6,7 @@ from dash.dependencies import Input, Output, State
 from cemm_lib import visual_rep_mod as visual
 from cemm_lib import misc_mod as m
 from cemm_lib import data_cleansing as cleansing
+from dash.exceptions import PreventUpdate
 
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -18,6 +19,7 @@ df_obj = cleansing.obj_list_of_missing_values(df)
 
 itemx_state = ""
 
+global post_cleaning_df
 post_cleansing_df= df
 
 # DEBUG PRINT:
@@ -33,16 +35,13 @@ list_of_row_column_pair = []
 list_of_radio_items_id = []
 list_of_rd_value=[]
 
-global varlist_post_cleansing_df
-varlist_post_cleansing_df=[]
-
 global varlist_df_obj
 varlist_df_obj=[]
 varlist_df_obj.clear()
 varlist_df_obj.append(df_obj)
-print("#39 START: printing varlist_df_obj[0]")
-print(varlist_df_obj[0])
-print("#39 END: printing varlist_df_obj[0]")
+
+global varlist_post_cleansing_df
+varlist_post_cleansing_df=[]
 
 #=============
 def update_post_cleansing_df():
@@ -51,26 +50,14 @@ def update_post_cleansing_df():
     temp_df = df
     temp_list_rd_input = list_of_rd_value
 
-    print("#44 START: printing temp_list_rd_input ... ")
-    print(temp_list_rd_input)
-    print("#44 END \n")
-
     print("\n #25 \n", list_of_rd_value)
     # LOOP - go through
     # try:
-    print("#42 START: printing [list_of_row_column_pair]")
-    print(list_of_row_column_pair)
-    print("#42 END \n ")
-
     print("\n #23 START --> Activated: loop ")
     n_index = 0
     for row_col in list_of_row_column_pair:
 
         print("\n #26 Looping :", n_index)
-        print("#43 START: printing temp_list_rd_input[n_index]")
-        print( temp_list_rd_input[n_index])
-        print("#43 END \n")
-
         row = row_col[0]
         col = row_col[1]
         cell_input_value = temp_list_rd_input[n_index]
@@ -84,6 +71,12 @@ def update_post_cleansing_df():
 
     print("\n #23 END --> Activated: loop ")
 
+    """
+    except Exception as e:
+        print("\n #25 Exception: ", e)
+        print("\n #24 --> Exception activated ")
+        temp_df = df
+    """
 
     # Reset Index
     temp_df = temp_df.reset_index(drop=True)
@@ -104,6 +97,10 @@ def update_post_cleansing_df():
     varlist_post_cleansing_df.clear()
     varlist_post_cleansing_df.append(post_cleansing_df)
 
+    print("#42 START: Printing varlist_post_cleansing_df[0]: \n")
+    print(varlist_post_cleansing_df[0])
+    print("#42 END")
+
     print("#32 END: Updating the dataframe [post_cleansing_df]")
 
     print("\n #21 END: --> Activated: updated_post_cleaning_df")
@@ -117,11 +114,6 @@ def extractor__to_html_row(obj__value):
     this_df = obj__value[0]
     m.dprint("-> ... extractor()")
     list_of_rows = obj__value[1]
-
-    print("#41 START: Printing [list_of_rows] <-- extractor__to_html_row(obj__value)")
-    print(list_of_rows)
-    print("41 END ")
-
     n_row = 0
     row_col_id = ""
 
@@ -235,7 +227,7 @@ def extractor__to_html_row(obj__value):
     html_output = html.Div(
         [
             html_table,
-            html.Button('Apply', id='apply_btn',n_clicks=0),
+            html.Button('Apply', id='apply_btn')
         ],
     )
 
@@ -334,16 +326,12 @@ def modify__value_row():
 
 app.layout = html.Div([
      # dcleanse_table(df)
-    print("#29 START:  Loading layout"),
-
-    html.Div(
-        id="datacleanse_table",
-        children=extractor__to_html_row(df_obj)
-    ),
+     print("#29 START:  Loading layout"),
 
    html.Div(
         id='output-container-button',
-        children="output here"
+        children=[extractor__to_html_row(varlist_df_obj[0]),
+        visual.generate_table_v2(varlist_df_obj[0][0])]
         # children = output-container-button
    ),
 
@@ -361,52 +349,41 @@ app.layout = html.Div([
 ])
 
 @app.callback(
-    [Output('datacleanse_table','children'),
-    Output('output-container-button', 'children')],
+    Output('output-container-button', 'children'),
     [Input('apply_btn', 'n_clicks')],
     callback_loop_radioitem_id()
     #// callback_loop(),
 )
 def update_output(n_clicks, *radio_item_value_id):
+    if n_clicks is None:
+        raise PreventUpdate
+    else:
+        print("\n -> #3 update_output_div()\n \"Apply\" button has been pressed ")
 
-    datacleanse_table_output=""
+        returnx = ""
+        # Print Debug:
+        print("#13 START printing value:")
+        print(radio_item_value_id)
+        print("#13 END \n")
 
-    print("#40 START: printing varlist_df_obj[0]")
-    print(varlist_df_obj[0])
-    print("#40 END: printing varlist_df_obj[0]")
+        print("\n #27 --> Clearing list")
+        list_of_rd_value.clear()
 
-    if(n_clicks==0):
-        datacleanse_table_output = extractor__to_html_row(varlist_df_obj[0])
+        for item in radio_item_value_id:
+            list_of_rd_value.append(item)
 
-    print("\n -> #3 update_output_div()\n \"Apply\" button has been pressed ")
-    # Print Debug:
-    print("\n #13 printing value:")
-    print(radio_item_value_id)
-    #// print(State(component_id('radioitem_12_4')))
-    #// print(list_x5,"\n")
+        print("#31 START: update_post_cleansing_df() ")
+        update_post_cleansing_df()
+        print("#31 END: update_post_cleansing_df() ")
 
-    print("\n #27 --> Clearing list")
-    list_of_rd_value.clear()
+        print("#41 START: printing varlist_post_cleansing_df[0]: ")
+        print(varlist_post_cleansing_df[0])
+        print("#41 END")
 
-    for item in radio_item_value_id:
-        list_of_rd_value.append(item)
-
-    print("#31 START: update_post_cleansing_df() ")
-    update_post_cleansing_df()
-    print("#31 END: update_post_cleansing_df() ")
-
-    print("#37 START: Printing the varlist [varlist_post_cleansing_df[0]]")
-    print(varlist_post_cleansing_df[0])
-
-    print("#37 END")
-    print("#38 n_clicks=",n_clicks)
-
-    # ERROR : Not displaying the updated dataframe
-    return(
-        datacleanse_table_output,
-        visual.generate_table_v2(varlist_post_cleansing_df[0])
-    )
-
+        # ERROR : Not displaying the updated dataframe
+        return(
+            visual.generate_table_v2(varlist_post_cleansing_df[0])
+        )
 
 if __name__ == '__main__':
     app.run_server(debug=True)
