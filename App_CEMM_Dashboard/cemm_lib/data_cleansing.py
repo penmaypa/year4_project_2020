@@ -5,10 +5,10 @@ import dash_html_components as html
 import pandas as pd
 import plotly.graph_objects as go
 
-df = pd.read_csv("dub_rent.csv")
+#df = pd.read_csv("dub_rent.csv")
 max_rows = 10
-# print(df)
 
+print("\n #2.1 START :  data_cleansing.py activated")
 #===========================
 """
 --------------------------------
@@ -21,14 +21,19 @@ FUNCTION:
  ACCESSING THE OBJECT:
     Tuple (dataframe, Lists[])
         ^ dataframe
-        ^ Lists of lists : L1 - list of rows
-            ^ List of tupple: L2 - New Row: Contains a list of cells of thes same row
-                ^ Tupple (row_number, Boolean, Value ):
-                    > Row number
-                    > Boolean: If the value of the cell is valid
-                    > Value: The value of the cell
+        ^ Lists of lists : L2-2 - list of rows
+            ^ List of tupple: L3 - New Row: Contains a list of cells of thes same row
+                ^ Tupple : L4-1 (row_number, Boolean, Value ):
+                    > Row number -- L5-1
+                    > Boolean: If the value of the cell is valid -- L5-2
+                    > Value: The value of the cell -- L5-3
+        ^ Tuple (L2-3):
+            > Key (L3-1)
+            > Value (L3-2)
 """
 def obj_list_of_missing_values(df):
+    print("#B.1 START: obj_list_of_missing_values()")
+    print("#B.2 Detail: This function will find missing value and pack it in an df_obj")
     row = len(df)
     col = len(df.columns)
 
@@ -37,6 +42,7 @@ def obj_list_of_missing_values(df):
     l2_list = [] # new row
     l3_tup = ((0,0),True, 'value')
     is_valid_value = True
+    data_is_clean = True
 
 
     count_row = 0
@@ -57,6 +63,7 @@ def obj_list_of_missing_values(df):
 
             if is_valid_value == False:
                 new_row.append(((count_row,count_col),False, df.iloc[count_row][count_col]))
+                data_is_clean = False
             else:
                 new_row.append(((count_row,count_col),True, df.iloc[count_row][count_col]))
 
@@ -66,11 +73,11 @@ def obj_list_of_missing_values(df):
             l1_list.append(new_row)
 
         count_row = count_row + 1
-    # print("\n"," -> Printing output: List > List > Tuple ")
-    # print(l1_list)
-    final_obj_pack = (df,l1_list)
-    output_list_of_missing_values = final_obj_pack
 
+    final_obj_pack = (df,l1_list,("data_is_clean", data_is_clean))
+    output_list_of_missing_values = final_obj_pack
+    print("#B.1 END: obj_list_of_missing_values()")
+    
     return output_list_of_missing_values
 
 #========================================
@@ -126,8 +133,7 @@ def test_run():
     # print(len(df.columns))
     print(df.size)
 
-print("================= \n")
-print(obj_list_of_missing_values(df))
+print("\n #2.1 END :  data_cleansing.py")
 
 # print(df.iloc[0:0])
 # print(df.columns)
