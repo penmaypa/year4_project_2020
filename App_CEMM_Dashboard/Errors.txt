@@ -1,0 +1,19 @@
+ERRORS
+
+===========================
+Issue_1:
+
+Traceback (most recent call last):
+  File "CEMM_main.py", line 475, in <module>
+    callback_loop_radioitem_id()
+  File "C:\Users\penue\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.7_qbz5n2kfra8p0\LocalCache\local-packages\Python37\site-packages\dash\dash.py", line 1264, in callback
+    self._validate_callback(output, inputs, state)
+  File "C:\Users\penue\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.7_qbz5n2kfra8p0\LocalCache\local-packages\Python37\site-packages\dash\dash.py", line 1068, in _validate_callback
+    raise exceptions.DuplicateCallbackOutput(msg)
+dash.exceptions.DuplicateCallbackOutput:
+Multi output ..output-container-button.children...output-data-upload.children.. contains an `Output` object
+that was already assigned.
+Duplicates:
+{'output-data-upload.children'}
+
+==========================================

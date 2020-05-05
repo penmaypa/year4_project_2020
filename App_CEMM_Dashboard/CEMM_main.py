@@ -469,7 +469,8 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
         return children
 
 @app.callback(
-    Output('output-container-button', 'children'),
+    [Output('output-container-button', 'children'),
+    Output('output-data-upload', 'children')],
     [Input('apply_btn', 'n_clicks')],
     callback_loop_radioitem_id()
     #// callback_loop(),
@@ -502,7 +503,8 @@ def update_output(n_clicks, *radio_item_value_id):
 
         # ERROR : Not displaying the updated dataframe
         return(
-            visual.generate_table_v2(varlist_post_cleansing_df[0])
+            visual.generate_table_v2(varlist_post_cleansing_df[0]),
+            html.Div()
         )
 
 
