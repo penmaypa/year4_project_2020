@@ -1,0 +1,6 @@
+
+data_connection
+	^ Functionality: The app should be able retrieve the data through a API or a link which will automatically updates the latest datasets
+
+head_selection
+	^ The user should be able to select, which line of the csv will be the heading

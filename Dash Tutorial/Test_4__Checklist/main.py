@@ -1,44 +1,19 @@
-# Original
-
-import csv
 import dash
+import pandas as pd
 import dash_core_components as dcc
 import dash_html_components as html
-import pandas as pd
-import plotly.graph_objects as go
-import sys
-from pathlib import Path
+from dash.dependencies import Input, Output, State
 from cemm_lib import visual_rep_mod as visual
-from cemm_lib import data_con_mod as data_manager
+from cemm_lib import misc_mod as m
 from cemm_lib import data_cleansing as cleansing
 from dash.exceptions import PreventUpdate
 
-#from cemm_lib import data_cleansing as dcleanse
 
-from dash.dependencies import Input, Output, State
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-import os
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-#=== Imports for Upload function ====
-import base64
-import datetime
-import io
-
-
-#========================
-# CONFIG
-enable_dataConnection = False
-#=================
-
-file_name="dub_rent_missing.csv"
-datafolder=Path("Data")
-csv_file = open(datafolder/file_name)
-df = pd.read_csv(csv_file)
-
-print("#45 START: printing df ")
-print(df)
-print("#45 END")
-
+df = pd.read_csv("dub_rent_missing.csv")
 org_raw_df = df
 df_obj = cleansing.obj_list_of_missing_values(df)
 
@@ -50,8 +25,6 @@ post_cleansing_df= df
 # DEBUG PRINT:
 # // print("\n #16 : ")
 
-#fix_this
-#Fix_this --  DETAIL: Make varlist for this
 list_of_row_column_pair = []
 """ ^
 > List (L0) -- list of tupples
@@ -70,57 +43,14 @@ varlist_df_obj.append(df_obj)
 global varlist_post_cleansing_df
 varlist_post_cleansing_df=[]
 
-dbn = 0
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
-# ====  Upload Method ====
-def parse_contents(contents, filename, date):
-    print("#43 START: parse_contents() \n")
-    content_type, content_string = contents.split(',')
-
-    decoded = base64.b64decode(content_string)
-    try:
-        print("\n -> parse_contents() -> try: \n")
-        if 'csv' in filename:
-            # Assume that the user uploaded a CSV file
-            print("#46 Processing csv file")
-            df = pd.read_csv(
-                io.StringIO(decoded.decode('utf-8')))
-        elif 'xls' in filename:
-            # Assume that the user uploaded an excel file
-            print("#47 Processing excel file")
-            df = pd.read_excel(io.BytesIO(decoded))
-    except Exception as e:
-        print("#44 ERROR: Error during parsing \n")
-        print(e)
-        return html.Div([
-            'There was an error processing this file.'
-        ])
-
-    print("#48 START: Printing df \n")
-    print(df)
-    print("#48 END \n")
-
-    df_obj = cleansing.obj_list_of_missing_values(df)
-
-    print("#43 END: parse_contents() \n")
-    return extractor__to_html_row(df_obj)
-
-#===============================
-
-
+#=============
 def update_post_cleansing_df():
 
     print("\n #21 START: --> Activated: updated_post_cleaning_df")
     temp_df = df
     temp_list_rd_input = list_of_rd_value
 
-    print("\n #25 \n", list_of_rd_value,"\n")
-    print("#50 START: Printing list_of_row_column_pair")
-    print(list_of_row_column_pair)
-    print("#50 END: Printing list_of_row_column_pair")
-
+    print("\n #25 \n", list_of_rd_value)
     # LOOP - go through
     # try:
     print("\n #23 START --> Activated: loop ")
@@ -175,12 +105,14 @@ def update_post_cleansing_df():
 
     print("\n #21 END: --> Activated: updated_post_cleaning_df")
 
-#DESCRIPTION:
+#===========================
+
+# DESCRIPTION:
 #   Returns a HTML Object that displays all the  value row
 #   each row has a radio-button for options -- ignore, delete, replace.
 def extractor__to_html_row(obj__value):
-    print("#49 START extractor__to_html_row()")
     this_df = obj__value[0]
+    m.dprint("-> ... extractor()")
     list_of_rows = obj__value[1]
     n_row = 0
     row_col_id = ""
@@ -317,8 +249,10 @@ def extractor__to_html_row(obj__value):
     print("\n printing the return: \n")
     print(html_table)
     print("\n")
-    print("#49 END extractor__to_html_row()")
+
     return html_output
+
+#======================
 
 def dcleanse_table(df):
     dataframe = df
@@ -388,88 +322,31 @@ def callback_loop_radioitem_id():
 def modify__value_row():
     return
 
+#===================================
 
-#=====================================
+app.layout = html.Div([
+     # dcleanse_table(df)
+     print("#29 START:  Loading layout"),
 
+   html.Div(
+        id='output-container-button',
+        children=[extractor__to_html_row(varlist_df_obj[0]),
+        visual.generate_table_v2(varlist_df_obj[0][0])]
+        # children = output-container-button
+   ),
 
-app.layout = html.Div(children=[
+   print("\n #17 ", list_of_radio_items_id,"\n"),
+   #// itemx_state = State('radioitem_12_4','value'),
 
-    # ==== Headings =====
-    html.Div(
-        [
-            html.H1(children='CEMM Dashboard',
-                style={
-                    'textAlign':'center',
-                    'font-weight':'bold'
-                },
-            ),
-            html.H4(
-                children="Country's Economy Monitoring and Managment Dashboard",
-                style={
-                    'textAlign':'center',
-                    'font-weight':'bold'
-                },
-            ),
-            html.Div(
-                style={
-                    'height':'5px'
-                }
-            )
-        ],
-        style={
-            'backgroundColor':'rgb(112, 180, 255, 0.5)'
-        }
-    ),
+  #// print("\n #12 Printing state :\n", itemx_state)
 
-    # === Upload ====
-    html.Div(
-        [
-            dcc.Upload(
-                id='upload-data',
-                children=html.Div([
-                    'Drag and Drop or ',
-                    html.A('Select Files')
-                ]),
-                style={
-                    'width': '100%',
-                    'height': '60px',
-                    'lineHeight': '60px',
-                    'borderWidth': '1px',
-                    'borderStyle': 'dashed',
-                    'borderRadius': '5px',
-                    'textAlign': 'center',
-                    'margin': '10px'
-                },
-                # Allow multiple files to be uploaded
-                multiple=True
-            ),
-            html.Div(id='output-data-upload'),
-        ]
-    ),
-    data_manager.dataset_url_manager(enable_dataConnection),
-
-    html.Div(
-         id='output-container-button',
-         children=[extractor__to_html_row(varlist_df_obj[0]),
-         visual.generate_table_v2(varlist_df_obj[0][0])]
-         # children = output-container-button
-    ),
+  print("\n #22 START: Printing list_of_row_column_pair:"),
+  print(list_of_row_column_pair),
+  print("\n #22 END \n"),
+  print("#29 END: Loading layout"),
+  print("#35 Printing the latest dataframe [post_cleansing_df]..."),
+  print(post_cleansing_df)
 ])
-
-
-print("\n Running Callback...\n")
-@app.callback(Output('output-data-upload', 'children'),
-              [Input('upload-data', 'contents')],
-              [State('upload-data', 'filename'),
-               State('upload-data', 'last_modified')])
-def update_output(list_of_contents, list_of_names, list_of_dates):
-    print("\n -> update_output()\n")
-    if list_of_contents is not None:
-        print("\n -> update_output() -> if: -> return() \n")
-        children = [
-            parse_contents(c, n, d) for c, n, d in
-            zip(list_of_contents, list_of_names, list_of_dates)]
-        return children
 
 @app.callback(
     Output('output-container-button', 'children'),
@@ -508,8 +385,5 @@ def update_output(n_clicks, *radio_item_value_id):
             visual.generate_table_v2(varlist_post_cleansing_df[0])
         )
 
-
-
 if __name__ == '__main__':
     app.run_server(debug=True)
-    app.config.suppress_callback_exceptions = True
