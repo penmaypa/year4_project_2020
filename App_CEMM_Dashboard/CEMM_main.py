@@ -50,8 +50,7 @@ post_cleansing_df= df
 # DEBUG PRINT:
 # // print("\n #16 : ")
 
-#fix_this
-#Fix_this --  DETAIL: Make varlist for this
+global list_of_row_column_pair
 list_of_row_column_pair = []
 """ ^
 > List (L0) -- list of tupples
@@ -69,6 +68,7 @@ varlist_df_obj.append(df_obj)
 
 global varlist_post_cleansing_df
 varlist_post_cleansing_df=[]
+
 
 dbn = 0
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -179,11 +179,12 @@ def update_post_cleansing_df():
 #   Returns a HTML Object that displays all the  value row
 #   each row has a radio-button for options -- ignore, delete, replace.
 def extractor__to_html_row(obj__value):
-    print("#49 START extractor__to_html_row()")
+    print("\n#49 START extractor__to_html_row() \n")
     this_df = obj__value[0]
     list_of_rows = obj__value[1]
     n_row = 0
     row_col_id = ""
+    list_of_row_column_pair.clear()
 
     table_head =[]
 
@@ -257,10 +258,6 @@ def extractor__to_html_row(obj__value):
         list_x4 = list_x1 + list_x3
         list_of_row_radio_items = list_of_row_radio_items + list_x4
 
-        print("\n test_4")
-        print(type(list_x1))
-        print(list_x1)
-        print(type(list_of_row_radio_items))
 
         #list_x1_tup = tuple(list_x1)
 
